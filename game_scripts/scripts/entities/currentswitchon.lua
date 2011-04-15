@@ -17,11 +17,13 @@
 -- along with this program; if not, write to the Free Software
 -- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+v = getVars()
+
 dofile("scripts/entities/currentswitch.lua")
 
 function init(me)
 	if entity_isFlag(me, 0) then
-		entity_setFlag(me, CURRENTSWITCH_ON)
+		entity_setFlag(me, v.CURRENTSWITCH_ON)
 	end	
-	commonInit(me)
+	v.commonInit(me)
 end

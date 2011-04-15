@@ -6325,6 +6325,8 @@ void Game::applyState()
 		}
 	}
 
+	dsq->collectScriptGarbage();
+
 	isCooking = false;
 	enqueuedPreviewRecipe = 0;
 

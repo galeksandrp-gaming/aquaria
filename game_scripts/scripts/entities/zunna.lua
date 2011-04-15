@@ -17,17 +17,19 @@
 -- along with this program; if not, write to the Free Software
 -- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+v = getVars()
+
 -- ================================================================================================
 -- Z U N N A
 -- ================================================================================================
 
 dofile("scripts/entities/entityinclude.lua")
 -- entity specific
-STATE_WAIT				= 1000
-STATE_WEAK				= 1001
-STATE_ATTACKPREP		= 1002
-STATE_ATTACK			= 1003
-STATE_RANGEATTACK		= 1004
+local STATE_WAIT			= 1000
+local STATE_WEAK			= 1001
+local STATE_ATTACKPREP		= 1002
+local STATE_ATTACK			= 1003
+local STATE_RANGEATTACK		= 1004
 
 
 -- ================================================================================================

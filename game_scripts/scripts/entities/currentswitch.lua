@@ -17,15 +17,17 @@
 -- along with this program; if not, write to the Free Software
 -- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+v = getVars()
+
 -- current switches
 dofile("scripts/entities/entityInclude.lua")
 
-CURRENTSWITCH_OFF	= 1
-CURRENTSWITCH_ON	= 2
+v.CURRENTSWITCH_OFF	= 1
+v.CURRENTSWITCH_ON	= 2
 
-bone_orb = 0
+v.bone_orb = 0
 
-function commonInit(me)
+function v.commonInit(me)
 	entity_setEntityType(me, ET_NEUTRAL)
 	entity_setWidth(me, 64)
 	entity_setHeight(me, 64)
@@ -33,22 +35,22 @@ function commonInit(me)
 	entity_setActivation(me, AT_CLICK, 64, 256)
 	entity_initSkeletal(me, "FleshSwitch")
 	entity_animate(me, "idle", LOOP_INF)
-	bone_orb = entity_getBoneByName(me, "Orb")
+	v.bone_orb = entity_getBoneByName(me, "Orb")
 end
 
 function postInit(me)
 	debugLog("postInit")
-	if entity_isFlag(me, CURRENTSWITCH_ON) then
+	if entity_isFlag(me, v.CURRENTSWITCH_ON) then
 		entity_setState(me, STATE_ON)
-	elseif entity_isFlag(me, CURRENTSWITCH_OFF) then
+	elseif entity_isFlag(me, v.CURRENTSWITCH_OFF) then
 		entity_setState(me, STATE_OFF)
 	end	
 end
 
-function setGroupState(me, state)
+local function setGroupState(me, state)
 	if entity_getGroupID(me) ~= 0 then
-		iter = 0
-		ent = getEntityInGroup(entity_getGroupID(me), iter)
+		local iter = 0
+		local ent = getEntityInGroup(entity_getGroupID(me), iter)
 		while (ent ~= 0) do
 			--debugLog("Looping thru group")
 			if not (ent == me) then
@@ -68,36 +70,36 @@ function enterState(me, state)
 		debugLog("setting on")
 		entity_animate(me, "open")
 		--entity_setNodeGroupActive(me, 0, true)
-		node = getNearestNodeByType(entity_x(me), entity_y(me), PATH_CURRENT)
+		local node = getNearestNodeByType(entity_x(me), entity_y(me), PATH_CURRENT)
 		if node ~= 0 then
 			debugLog("found node, setting")
 			node_setActive(node, true)
 		else
 			debugLog("did not find node")
 		end
-		entity_setFlag(me, CURRENTSWITCH_ON)
+		entity_setFlag(me, v.CURRENTSWITCH_ON)
 		-- turn other switches off
 		setGroupState(me, STATE_OFF)
-		--bone_setColor(bone_orb, 0, 1, 0, 0.5)
+		--bone_setColor(v.bone_orb, 0, 1, 0, 0.5)
 		--entity_setColor(me, 0, 1, 0, 0)
 	elseif entity_isState(me, STATE_OFF) then
 		debugLog("setting off")
 		entity_animate(me, "close")
 		--entity_setNodeGroupActive(me, 0, false)
-		node = getNearestNodeByType(entity_x(me), entity_y(me), PATH_CURRENT)
+		local node = getNearestNodeByType(entity_x(me), entity_y(me), PATH_CURRENT)
 		if node ~= 0 then
 			node_setActive(node, false)
 		end		
-		entity_setFlag(me, CURRENTSWITCH_OFF)
+		entity_setFlag(me, v.CURRENTSWITCH_OFF)
 		-- turn other switches on
 		setGroupState(me, STATE_ON)
-		--bone_setColor(bone_orb, 1, 0, 0, 0.5)
+		--bone_setColor(v.bone_orb, 1, 0, 0, 0.5)
 		--entity_setColor(me, 1, 0, 0, 0)
 	end
 end
 
 function activate(me)
-	if entity_isFlag(me, CURRENTSWITCH_OFF) then
+	if entity_isFlag(me, v.CURRENTSWITCH_OFF) then
 		debugLog("setting stateon")
 		entity_setState(me, STATE_ON)
 	end
